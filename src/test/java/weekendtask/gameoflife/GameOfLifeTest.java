@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class GameOfLifeTest {
@@ -26,7 +27,7 @@ public class GameOfLifeTest {
         expectedResult.add(new Cell(2, 1));
         expectedResult.add(new Cell(2, 2));
 
-        assertEquals(expectedResult,result);
+        assertTrue(expectedResult.containsAll(result) && result.containsAll(expectedResult));
     }
 
     @Test
@@ -45,7 +46,7 @@ public class GameOfLifeTest {
         expectedResult.add(new Cell(0, 1));
         expectedResult.add(new Cell(2, 1));
 
-        assertEquals(expectedResult,result);
+        assertTrue(expectedResult.containsAll(result) && result.containsAll(expectedResult));
     }
 
     @Test
@@ -67,6 +68,31 @@ public class GameOfLifeTest {
         expectedResult.add(new Cell(0, 2));
         expectedResult.add(new Cell(1, 2));
 
-        assertEquals(expectedResult,result);
+        assertTrue(expectedResult.containsAll(result) && result.containsAll(expectedResult));
+    }
+    @Test
+    void shouldTestToadPattern() {
+        List<Cell> inputLiveCells=new ArrayList<>();
+        inputLiveCells.add(new Cell(1, 1));
+        inputLiveCells.add( new Cell(1, 2));
+        inputLiveCells.add(new Cell(1, 3));
+        inputLiveCells.add(new Cell(2, 2));
+        inputLiveCells.add(new Cell(2, 3));
+        inputLiveCells.add(new Cell(2, 4));
+
+
+        GameOfLife gameOfLife = new GameOfLife(inputLiveCells);
+        List<Cell> result=gameOfLife.nextGeneration();
+
+        List<Cell> expectedResult=new ArrayList<>();
+        expectedResult.add(new Cell(0, 2));
+        expectedResult.add(new Cell(1, 1));
+        expectedResult.add(new Cell(1, 4));
+        expectedResult.add(new Cell(2, 1));
+        expectedResult.add(new Cell(2, 4));
+        expectedResult.add(new Cell(3, 3));
+
+        assertTrue(expectedResult.containsAll(result) && result.containsAll(expectedResult));
+
     }
 }
