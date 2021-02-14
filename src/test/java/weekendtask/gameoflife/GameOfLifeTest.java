@@ -47,4 +47,26 @@ public class GameOfLifeTest {
 
         assertEquals(expectedResult,result);
     }
+
+    @Test
+    void shouldTestBoatPattern() {
+        List<Cell> inputLiveCells=new ArrayList<>();
+        inputLiveCells.add(new Cell(0, 1));
+        inputLiveCells.add( new Cell(1, 0));
+        inputLiveCells.add(new Cell(2, 1));
+        inputLiveCells.add(new Cell(0, 2));
+        inputLiveCells.add(new Cell(1, 2));
+
+        GameOfLife gameOfLife = new GameOfLife(inputLiveCells);
+        List<Cell> result=gameOfLife.nextGeneration();
+
+        List<Cell> expectedResult=new ArrayList<>();
+        expectedResult.add(new Cell(0, 1));
+        expectedResult.add(new Cell(1, 0));
+        expectedResult.add(new Cell(2, 1));
+        expectedResult.add(new Cell(0, 2));
+        expectedResult.add(new Cell(1, 2));
+
+        assertEquals(expectedResult,result);
+    }
 }
