@@ -2,7 +2,6 @@ package weekendtask.gameoflife;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GameOfLife {
@@ -15,25 +14,20 @@ public class GameOfLife {
 
     public List<Cell> nextGeneration() {
 
-        List<Cell> aliveCells = new ArrayList<>(inputCells);
+        List<Cell> aliveCellsAfterRun = new ArrayList<>(inputCells);
 
-        nextTick(aliveCells);
+        for (Cell activeCell : inputCells) {
 
-        return aliveCells;
-    }
+            List<Cell> aliveCellsAfterRemovingDeadCells = removeDeadCells(aliveCellsAfterRun, activeCell);
 
-    private void nextTick(List<Cell> aliveCells) {
-
-        for (Cell active : inputCells) {
-
-            List<Cell> activeCells = removeDeadCells(aliveCells, active);
-
-            addAliveCells(aliveCells, activeCells);
+            aliveCellsAfterRun = addAliveCells(aliveCellsAfterRun, aliveCellsAfterRemovingDeadCells);
         }
+
+        return aliveCellsAfterRun;
     }
 
-    private List<Cell> removeDeadCells(List<Cell> aliveCells, Cell active) {
-        List<Cell> neighbouringCells = active.getNeighbours();
+    private List<Cell> removeDeadCells(List<Cell> aliveCellsAfterRun, Cell activeCell) {
+        List<Cell> neighbouringCells = activeCell.getNeighbours();
 
         int activeNeighbours = neighbouringCells.stream()
                 .distinct()
@@ -41,23 +35,26 @@ public class GameOfLife {
                 .collect(Collectors.toSet()).size();
 
         if (activeNeighbours < 2 || activeNeighbours > 3)
-            aliveCells.remove(active);
+            aliveCellsAfterRun.remove(activeCell);
+
         return neighbouringCells;
     }
 
-    private void addAliveCells(List<Cell> aliveCells, List<Cell> neighbouringCells) {
+    private List<Cell> addAliveCells(List<Cell> aliveCellsAfterRun, List<Cell> neighbouringCells) {
+
         for (Cell neighbour : neighbouringCells) {
             List<Cell> neighbouringCellsList = neighbour.getNeighbours();
 
-            int result = neighbouringCellsList.stream()
+            int aliveNeighbours = neighbouringCellsList.stream()
                     .distinct()
                     .filter(inputCells::contains)
                     .collect(Collectors.toSet()).size();
 
-            if (result == 3 && !aliveCells.contains(neighbour))
-                aliveCells.add(neighbour);
+            if (aliveNeighbours == 3 && !aliveCellsAfterRun.contains(neighbour))
+                aliveCellsAfterRun.add(neighbour);
 
         }
+        return aliveCellsAfterRun;
     }
 
 }
