@@ -9,6 +9,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameOfLifeTest {
 
+
+    @Test
+    void shouldTestEightNeighboursOfCell() {
+
+        Cell inputCell=new Cell(1, 1);
+
+        List<Cell> neighbours=inputCell.getNeighbours();
+
+        List<Cell> expectedNeighbours=new ArrayList<>();
+        expectedNeighbours.add(new Cell(0,0));
+        expectedNeighbours.add(new Cell(0,1));
+        expectedNeighbours.add(new Cell(0,2));
+        expectedNeighbours.add(new Cell(1,0));
+        expectedNeighbours.add(new Cell(1,2));
+        expectedNeighbours.add(new Cell(2,0));
+        expectedNeighbours.add(new Cell(2,1));
+        expectedNeighbours.add(new Cell(2,2));
+
+        assertTrue(expectedNeighbours.containsAll(neighbours) && neighbours.containsAll(expectedNeighbours));
+
+
+
+    }
+    
     @Test
     void shouldTestBlockPattern() {
         List<Cell> inputLiveCells=new ArrayList<>();
@@ -94,4 +118,6 @@ public class GameOfLifeTest {
         assertTrue(expectedResult.containsAll(result) && result.containsAll(expectedResult));
 
     }
+
+
 }
