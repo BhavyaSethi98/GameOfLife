@@ -15,32 +15,48 @@ public class GameOfLife {
     public List<Cell> nextGeneration() {
 
         List<Cell> aliveCells = new ArrayList<>(inputCells);
-        List<Cell> neighbouringCells;
+
+        nextTick(aliveCells);
+
+        return aliveCells;
+    }
+
+    private void nextTick(List<Cell> aliveCells) {
 
         for (Cell active : inputCells) {
-            neighbouringCells = active.getNeighbours();
 
-            int activeNeighbours = neighbouringCells.stream()
+            List<Cell> activeCells = removeDeadCells(aliveCells, active);
+
+            addAliveCells(aliveCells, activeCells);
+        }
+    }
+
+    private List<Cell> removeDeadCells(List<Cell> aliveCells, Cell active) {
+        List<Cell> neighbouringCells = active.getNeighbours();
+
+        int activeNeighbours = neighbouringCells.stream()
+                .distinct()
+                .filter(inputCells::contains)
+                .collect(Collectors.toSet()).size();
+
+        if (activeNeighbours < 2 || activeNeighbours > 3)
+            aliveCells.remove(active);
+        return neighbouringCells;
+    }
+
+    private void addAliveCells(List<Cell> aliveCells, List<Cell> neighbouringCells) {
+        for (Cell neighbour : neighbouringCells) {
+            List<Cell> neighbouringCellsList = neighbour.getNeighbours();
+
+            int result = neighbouringCellsList.stream()
                     .distinct()
                     .filter(inputCells::contains)
                     .collect(Collectors.toSet()).size();
 
-            if (activeNeighbours < 2 || activeNeighbours > 3)
-                aliveCells.remove(active);
+            if (result == 3 && !aliveCells.contains(neighbour))
+                aliveCells.add(neighbour);
 
-            for (Cell neighbourCell : neighbouringCells) {
-                List<Cell> neighbouringCellsList = neighbourCell.getNeighbours();
-
-                int result = neighbouringCellsList.stream().distinct().filter(inputCells::contains).collect(Collectors.toSet()).size();
-
-                if (result == 3 && !aliveCells.contains(neighbourCell))
-
-                    aliveCells.add(neighbourCell);
-
-            }
         }
-
-        return aliveCells;
     }
 
 }

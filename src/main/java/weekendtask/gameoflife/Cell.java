@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Cell {
 
-    private int xCoordinate;
-    private int yCoordinate;
+    private final int xCoordinate;
+    private final int yCoordinate;
 
 
     public Cell(int xCoordinate, int yCoordinate) {
