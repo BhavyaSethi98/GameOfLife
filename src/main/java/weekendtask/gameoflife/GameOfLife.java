@@ -18,15 +18,15 @@ public class GameOfLife {
 
         for (Cell activeCell : inputCells) {
 
-            List<Cell> aliveCellsAfterRemovingDeadCells = removeDeadCells(aliveCellsAfterRun, activeCell);
+            List<Cell> activeCells = removeDiedCells(aliveCellsAfterRun, activeCell);
 
-            aliveCellsAfterRun = addAliveCells(aliveCellsAfterRun, aliveCellsAfterRemovingDeadCells);
+            aliveCellsAfterRun = addCellsAlived(aliveCellsAfterRun, activeCells);
         }
 
         return aliveCellsAfterRun;
     }
 
-    private List<Cell> removeDeadCells(List<Cell> aliveCellsAfterRun, Cell activeCell) {
+    private List<Cell> removeDiedCells(List<Cell> aliveCellsAfterRun, Cell activeCell) {
         List<Cell> neighbouringCells = activeCell.getNeighbours();
 
         int activeNeighbours = neighbouringCells.stream()
@@ -40,7 +40,7 @@ public class GameOfLife {
         return neighbouringCells;
     }
 
-    private List<Cell> addAliveCells(List<Cell> aliveCellsAfterRun, List<Cell> neighbouringCells) {
+    private List<Cell> addCellsAlived(List<Cell> aliveCellsAfterRun, List<Cell> neighbouringCells) {
 
         for (Cell neighbour : neighbouringCells) {
             List<Cell> neighbouringCellsList = neighbour.getNeighbours();

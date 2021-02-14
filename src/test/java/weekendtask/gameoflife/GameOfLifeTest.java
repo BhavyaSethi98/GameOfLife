@@ -14,7 +14,6 @@ public class GameOfLifeTest {
     void shouldTestEightNeighboursOfCell() {
 
         Cell inputCell=new Cell(1, 1);
-
         List<Cell> neighbours=inputCell.getNeighbours();
 
         List<Cell> expectedNeighbours=new ArrayList<>();
@@ -28,11 +27,8 @@ public class GameOfLifeTest {
         expectedNeighbours.add(new Cell(2,2));
 
         assertTrue(expectedNeighbours.containsAll(neighbours) && neighbours.containsAll(expectedNeighbours));
-
-
-
     }
-    
+
     @Test
     void shouldTestBlockPattern() {
         List<Cell> inputLiveCells=new ArrayList<>();
